@@ -629,10 +629,8 @@ gsap.utils.toArray('.rv').forEach(el=>{
 });
 
 // ── Service cards stagger ───────────────────────────────
-gsap.utils.toArray('.scard').forEach((c,i)=>{
-  gsap.from(c,{opacity:0,y:55,duration:.75,delay:i*.12,ease:'power3.out',
-    scrollTrigger:{trigger:c,start:'top 87%',toggleActions:'play none none none'}
-  });
+gsap.from('.scard',{opacity:0,y:55,duration:.75,stagger:.12,ease:'power3.out',
+  scrollTrigger:{trigger:'#svc',start:'top 80%',toggleActions:'play none none none'}
 });
 
 // ── NOKTO section parallax scale ───────────────────────
