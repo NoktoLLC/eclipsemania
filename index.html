@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOKTO GROUP LLC — The NOKTO Effect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050505;--surf:#0d0d0d;--surf2:#141414;
+  --red:#E31414;--red-glow:rgba(227,20,20,0.3);
+  --lime:#C8FF00;--white:#F0F0F0;--gray:#555;
+  --gold:#FF8C00;--wood:#8B5E3C;
+  --font-d:'Bebas Neue',Impact,sans-serif;
+  --font-b:'Space Grotesk',system-ui,sans-serif;
+  --nav:72px;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--white);font-family:var(--font-b);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cd,#cr{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+#cd{width:8px;height:8px;background:var(--red)}
+#cr{width:36px;height:36px;border:1.5px solid rgba(227,20,20,.55);transition:width .3s,height .3s,border-color .3s}
+body.cursor-hover #cr{width:54px;height:54px;border-color:var(--lime)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px);transition:background .4s,backdrop-filter .4s}
+nav.scrolled{background:rgba(5,5,5,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nl{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+.nl span:first-child{font-family:var(--font-d);font-size:22px;color:var(--red);letter-spacing:.1em}
+.nl span:last-child{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:1px}
+.nlinks{display:flex;gap:32px;list-style:none}
+.nlinks a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.nlinks a:hover{color:#fff}
+.ncta{background:var(--red);color:#fff;padding:10px 22px;font-family:var(--font-b);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .2s,transform .2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.ncta:hover{background:#ff2424;transform:translateY(-1px)}
+
+/* HERO */
+#hero{position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#hvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hovl{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,.25) 0%,rgba(5,5,5,.05) 35%,rgba(5,5,5,.55) 75%,rgba(5,5,5,1) 100%);z-index:1}
+#hpar{position:absolute;inset:0;z-index:2;pointer-events:none}
+.hcont{position:relative;z-index:3;text-align:center;padding:0 24px}
+.heye{font-size:10px;letter-spacing:.55em;text-transform:uppercase;color:var(--lime);margin-bottom:22px;opacity:0;transform:translateY(16px)}
+.hh1{font-family:var(--font-d);font-size:clamp(60px,12vw,170px);line-height:.88;color:var(--white);margin-bottom:14px;opacity:0;transform:translateY(28px);text-transform:uppercase}
+.hh1 .red{color:var(--red);display:block}
+.hsub{font-size:clamp(13px,1.4vw,16px);color:rgba(255,255,255,.5);max-width:460px;margin:0 auto 38px;line-height:1.75;opacity:0;transform:translateY(16px)}
+.hbtns{display:flex;gap:14px;justify-content:center;opacity:0;transform:translateY(16px)}
+.btn-p{background:var(--red);color:#fff;padding:14px 30px;font-family:var(--font-b);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .25s;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.btn-p:hover{background:#ff2424;transform:translateY(-2px);box-shadow:0 12px 40px var(--red-glow)}
+.btn-o{border:1px solid rgba(255,255,255,.18);color:var(--white);padding:14px 30px;font-family:var(--font-b);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .25s}
+.btn-o:hover{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.04);transform:translateY(-2px)}
+.scrl{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;opacity:.45}
+.scrl span{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.scrl-line{width:1px;height:46px;background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent);animation:scrlA 2s ease-in-out infinite}
+@keyframes scrlA{0%,100%{transform:scaleY(1);opacity:.5}50%{transform:scaleY(.5);opacity:1}}
+
+/* MARQUEE */
+.mq{background:var(--red);overflow:hidden;padding:13px 0;white-space:nowrap}
+.mq-i{display:inline-flex;animation:mq 28s linear infinite}
+.mq-t{font-family:var(--font-d);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:#fff;padding:0 28px}
+.mq-dot{color:rgba(255,255,255,.35);font-size:12px}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* NOKTO CLIP */
+#nclip{position:relative;background:var(--bg);padding:70px 0 48px;text-align:center;overflow:hidden}
+#ncanvas{display:block;width:100%;max-width:100%;margin:0 auto}
+.nsub{font-family:var(--font-d);font-size:clamp(18px,3.5vw,44px);color:var(--red);letter-spacing:.28em;margin-top:-14px;text-transform:uppercase}
+.ntag{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:14px}
+
+/* SECTION LABELS */
+.slabel{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--lime);margin-bottom:18px;display:block}
+.sh{font-family:var(--font-d);font-size:clamp(38px,7vw,104px);line-height:.9;margin-bottom:56px;text-transform:uppercase}
+.sh em{font-style:italic;color:var(--red);font-family:var(--font-b);font-weight:700}
+
+/* SERVICES */
+#svc{padding:100px clamp(20px,5vw,80px);max-width:1400px;margin:0 auto}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.scard{position:relative;padding:44px 32px;background:var(--surf);overflow:hidden;transition:background .3s}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.scard:hover::before{transform:scaleX(1)}
+.scard:hover{background:var(--surf2)}
+.snum{font-family:var(--font-d);font-size:88px;color:rgba(255,255,255,.04);position:absolute;top:10px;right:18px;line-height:1}
+.sicon{width:44px;height:44px;margin-bottom:22px;color:var(--red)}
+.stitle{font-family:var(--font-d);font-size:30px;letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+.sdesc{font-size:14px;line-height:1.75;color:rgba(255,255,255,.45);margin-bottom:22px}
+.slink{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--lime);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:gap .2s}
+.slink:hover{gap:14px}
+
+/* FEATURE SECTIONS */
+.fsec{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.fbg{position:absolute;inset:0;z-index:0}
+.fovl{position:absolute;inset:0;z-index:1}
+.fcont{position:relative;z-index:2;width:100%;padding:80px clamp(20px,5vw,80px);max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.fh{font-family:var(--font-d);font-size:clamp(44px,6vw,90px);line-height:.9;margin-bottom:22px;text-transform:uppercase}
+.fb{font-size:15px;line-height:1.8;color:rgba(255,255,255,.5);max-width:420px;margin-bottom:38px}
+.kb{width:100%;height:100%;object-fit:cover;animation:kb 22s ease-in-out infinite alternate}
+@keyframes kb{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.1) translate(-3%,-2%)}}
+
+/* BROWSER MOCKUP */
+.brow{background:#181818;border-radius:10px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.05);transform:perspective(900px) rotateY(-8deg) rotateX(3deg);transition:transform .5s ease}
+.brow:hover{transform:perspective(900px) rotateY(-4deg) rotateX(1deg)}
+.bchrome{background:#222;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.bdots{display:flex;gap:5px}
+.bdot{width:10px;height:10px;border-radius:50%}
+.bdot:nth-child(1){background:#ff5f57}
+.bdot:nth-child(2){background:#febc2e}
+.bdot:nth-child(3){background:#28c840}
+.burl{background:rgba(255,255,255,.07);border-radius:4px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,.28);flex:1}
+.bscreen{display:grid;grid-template-columns:1fr 1fr;height:270px}
+.bpane{display:flex;flex-direction:column;justify-content:flex-end;padding:14px;position:relative}
+.bpane::after{position:absolute;top:8px;left:8px;font-size:8px;letter-spacing:.2em}
+.bbefore{background:linear-gradient(135deg,#2a2a2a,#1a1a1a)}
+.bbefore::after{content:'BEFORE';color:rgba(255,255,255,.25)}
+.bafter{background:linear-gradient(135deg,#120000,#0a0000)}
+.bafter::after{content:'AFTER';color:var(--red)}
+
+/* LOGO SECTION */
+#ldesign{background:linear-gradient(135deg,#080000 0%,#050505 45%,#0a0004 100%)}
+.lshow{display:flex;flex-direction:column;gap:16px}
+.lcard{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);padding:28px 44px;text-align:center;transition:all .4s}
+.lcard:hover{background:rgba(227,20,20,.06);border-color:rgba(227,20,20,.2);transform:translateY(-4px)}
+.lname{font-family:var(--font-d);font-size:32px;letter-spacing:.08em;margin-bottom:3px;text-transform:uppercase}
+.ltag2{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+
+/* WOOD */
+.wtex{width:100%;height:100%;background:
+  repeating-linear-gradient(88deg,transparent,transparent 3px,rgba(160,80,20,.012) 3px,rgba(160,80,20,.012) 5px),
+  repeating-linear-gradient(180deg,transparent,transparent 10px,rgba(120,60,10,.008) 10px,rgba(120,60,10,.008) 11px),
+  linear-gradient(135deg,#160600 0%,#250d00 30%,#160600 60%,#080300 100%)}
+.smock{background:linear-gradient(135deg,#5C3A1E 0%,#8B5E3C 25%,#6B4423 50%,#A0703D 75%,#5C3A1E 100%);padding:30px 44px;position:relative;box-shadow:0 0 0 4px #3D2410,0 0 0 8px #5C3A1E,0 20px 60px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,200,100,.12);border-radius:2px}
+.smock::before{content:'';position:absolute;inset:8px;border:1px solid rgba(255,200,100,.12);pointer-events:none}
+.st{font-family:var(--font-d);font-size:clamp(28px,4vw,52px);color:rgba(255,230,170,.95);text-align:center;letter-spacing:.15em;text-shadow:0 2px 8px rgba(0,0,0,.5),0 0 24px rgba(255,170,60,.18);display:block}
+.ss{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,190,120,.5);text-align:center;margin-top:7px;display:block}
+.woods{display:inline-flex;gap:14px;margin-top:16px}
+.woods span{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,130,60,.4)}
+
+/* STATS */
+#stats{padding:90px clamp(20px,5vw,80px);background:var(--surf);border-top:1px solid rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.03)}
+.stgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.sti{padding:44px 32px;border-left:1px solid rgba(255,255,255,.05);text-align:center}
+.sti:first-child{border-left:none}
+.stn{font-family:var(--font-d);font-size:clamp(52px,7vw,96px);line-height:1;color:var(--red);margin-bottom:7px}
+.stl{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+
+/* CTA */
+#cta{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+#cvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.3) saturate(1.6)}
+.covl{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(227,20,20,.12) 0%,rgba(5,5,5,.7) 55%,rgba(5,5,5,.96) 100%);z-index:1}
+.ccont{position:relative;z-index:2;padding:80px 24px}
+.ceye{font-size:10px;letter-spacing:.6em;text-transform:uppercase;color:var(--lime);margin-bottom:22px}
+.ch{font-family:var(--font-d);font-size:clamp(44px,9vw,130px);line-height:.9;margin-bottom:28px;text-transform:uppercase}
+.csub{font-size:16px;color:rgba(255,255,255,.45);max-width:440px;margin:0 auto 44px;line-height:1.75}
+.cbtn{display:inline-flex;align-items:center;gap:11px;background:var(--red);color:#fff;padding:17px 42px;font-family:var(--font-b);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:all .3s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.cbtn:hover{background:#ff1f1f;transform:translateY(-3px);box-shadow:0 20px 60px rgba(227,20,20,.5)}
+
+/* FOOTER */
+footer{background:#030303;border-top:1px solid rgba(255,255,255,.04);padding:56px clamp(20px,5vw,80px) 36px}
+.ft{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.04)}
+.flogo span:first-child{font-family:var(--font-d);font-size:34px;color:var(--red);letter-spacing:.1em;display:block;line-height:1}
+.flogo span:last-child{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.25);display:block;margin-top:2px}
+.ftag{font-size:12px;color:rgba(255,255,255,.2);margin-top:10px}
+.flinks{display:flex;gap:44px}
+.flg h4{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:14px}
+.flg a{display:block;font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;margin-bottom:9px;transition:color .2s}
+.flg a:hover{color:#fff}
+.fb2{display:flex;justify-content:space-between;align-items:center}
+.fcopy{font-size:11px;color:rgba(255,255,255,.18)}
+.fcopy span{color:var(--red)}
+
+/* NOKTO SCROLL WINDOW */
+#nokto-window{background:#050505;padding:100px 0 80px;text-align:center;overflow:hidden;position:relative}
+#nokto-window::before{content:'';position:absolute;top:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,#050505,transparent);z-index:2;pointer-events:none}
+#nokto-window::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to top,#050505,transparent);z-index:2;pointer-events:none}
+.nw-text{
+  font-family:var(--font-d);
+  font-size:clamp(22vw,28vw,32vw);
+  line-height:.82;
+  display:block;
+  background-image:url('logo_hero.png');
+  background-size:160% auto;
+  background-position:center 40%;
+  background-attachment:scroll;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  position:relative;
+  z-index:1;
+  filter:saturate(1.4) brightness(1.15);
+  will-change:background-position;
+}
+.nw-group{font-family:var(--font-d);font-size:clamp(4vw,5.5vw,7vw);letter-spacing:.35em;color:var(--red);margin-top:-8px;display:block;position:relative;z-index:1;text-transform:uppercase}
+.nw-tag{font-size:11px;letter-spacing:.55em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:20px;display:block;position:relative;z-index:1}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(38px)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sgrid{grid-template-columns:1fr}
+  .stgrid{grid-template-columns:repeat(2,1fr)}
+  .fcont{grid-template-columns:1fr;gap:36px}
+  .ft{flex-direction:column;gap:36px}
+  .flinks{flex-direction:column;gap:28px}
+  .nlinks{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .kb,.mq-i,.scrl-line{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div id="cd"></div>
+<div id="cr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nl">
+    <span>NOKTO</span>
+    <span>Group LLC</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#svc">Services</a></li>
+    <li><a href="#website-overhauls">Work</a></li>
+    <li><a href="#stats">About</a></li>
+    <li><a href="#cta">Contact</a></li>
+  </ul>
+  <a href="#cta" class="ncta">Start a Project</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <video id="hvid" autoplay muted loop playsinline>
+    <source src="eclipse_veo_0.mp4" type="video/mp4">
+  </video>
+  <div class="hovl"></div>
+  <canvas id="hpar"></canvas>
+  <div class="hcont" id="hcont">
+    <p class="heye">The NOKTO Effect</p>
+    <h1 class="hh1">We Make<br><span class="red">Brands</span><br>Unforgettable.</h1>
+    <p class="hsub">Web. Brand. Signs. Every project is engineered to stop the scroll, win the click, and own the room.</p>
+    <div class="hbtns">
+      <a href="#cta" class="btn-p">Start Your Project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="#svc" class="btn-o">View Services</a>
+    </div>
+  </div>
+  <div class="scrl"><span>Scroll</span><div class="scrl-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-i">
+    <span class="mq-t">Website Overhauls</span><span class="mq-dot">★</span>
+    <span class="mq-t">Logo Design</span><span class="mq-dot">★</span>
+    <span class="mq-t">Custom Wood Signs</span><span class="mq-dot">★</span>
+    <span class="mq-t">The NOKTO Effect</span><span class="mq-dot">★</span>
+    <span class="mq-t">Email Campaigns</span><span class="mq-dot">★</span>
+    <span class="mq-t">Landing Pages</span><span class="mq-dot">★</span>
+    <span class="mq-t">Brand Identity</span><span class="mq-dot">★</span>
+    <span class="mq-t">Website Overhauls</span><span class="mq-dot">★</span>
+    <span class="mq-t">Logo Design</span><span class="mq-dot">★</span>
+    <span class="mq-t">Custom Wood Signs</span><span class="mq-dot">★</span>
+    <span class="mq-t">The NOKTO Effect</span><span class="mq-dot">★</span>
+    <span class="mq-t">Email Campaigns</span><span class="mq-dot">★</span>
+    <span class="mq-t">Landing Pages</span><span class="mq-dot">★</span>
+    <span class="mq-t">Brand Identity</span><span class="mq-dot">★</span>
+  </div>
+</div>
+
+<!-- NOKTO CLIP CANVAS -->
+<section id="nclip">
+  <video id="nsrc" autoplay muted loop playsinline style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0">
+    <source src="eclipse_veo_0.mp4" type="video/mp4">
+  </video>
+  <canvas id="ncanvas"></canvas>
+  <div class="nsub">Group LLC</div>
+  <p class="ntag">Digital &nbsp;·&nbsp; Crafted &nbsp;·&nbsp; Unforgettable</p>
+</section>
+
+<!-- SERVICES -->
+<section id="svc">
+  <span class="slabel">What We Do</span>
+  <h2 class="sh rv">We don't just<br>build websites.<br><em>We build weapons.</em></h2>
+  <div class="sgrid">
+    <div class="scard rv">
+      <span class="snum">01</span>
+      <svg class="sicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <h3 class="stitle">Website Overhauls</h3>
+      <p class="sdesc">Replace tired, decade-old websites with precision-engineered digital experiences that actually convert.</p>
+      <a href="#website-overhauls" class="slink">Learn More →</a>
+    </div>
+    <div class="scard rv">
+      <span class="snum">02</span>
+      <svg class="sicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <h3 class="stitle">Logo Design</h3>
+      <p class="sdesc">Your identity is your first impression. We craft marks that brands build empires on — concept to full brand kit.</p>
+      <a href="#ldesign" class="slink">Learn More →</a>
+    </div>
+    <div class="scard rv">
+      <span class="snum">03</span>
+      <svg class="sicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <h3 class="stitle">Custom Wood Signs</h3>
+      <p class="sdesc">Laser-precision, handcrafted wood signs that turn any space into a statement. Built by hand, built to outlast trends.</p>
+      <a href="#wood" class="slink">Learn More →</a>
+    </div>
+  </div>
+</section>
+
+<!-- NOKTO SCROLL WINDOW -->
+<section id="nokto-window">
+  <span class="nw-text">NOKTO</span>
+  <span class="nw-group">Group LLC</span>
+  <span class="nw-tag">The NOKTO Effect &nbsp;·&nbsp; Digital · Crafted · Unforgettable</span>
+</section>
+
+<!-- WEBSITE OVERHAULS -->
+<section class="fsec" id="website-overhauls">
+  <div class="fbg">
+    <div class="fovl" style="background:linear-gradient(90deg,rgba(5,5,5,.93) 0%,rgba(5,5,5,.45) 50%,rgba(5,5,5,.93) 100%);z-index:1"></div>
+    <img src="web_hero.png" alt="" style="width:100%;height:100%;object-fit:cover;animation:kb 22s ease-in-out infinite alternate;opacity:.55">
+  </div>
+  <div class="fcont">
+    <div>
+      <span class="slabel">01 — Website Overhauls</span>
+      <h2 class="fh rv">We Replace<br>Tired Sites<br><span style="color:var(--red)">With Weapons.</span></h2>
+      <p class="fb rv">Your website works 24/7 — or it doesn't. We audit, strategize, and rebuild from the ground up. Custom domains, email campaigns, sub-domain systems, and hosting that won't flinch under traffic.</p>
+      <a href="#cta" class="btn-p rv">Get A Free Audit</a>
+    </div>
+    <div class="rv">
+      <div class="brow">
+        <div class="bchrome">
+          <div class="bdots"><div class="bdot"></div><div class="bdot"></div><div class="bdot"></div></div>
+          <div class="burl">noktogroup.com</div>
+        </div>
+        <div class="bscreen">
+          <div class="bpane bbefore">
+            <div style="height:5px;background:rgba(255,255,255,.07);margin-bottom:5px;border-radius:2px;width:65%"></div>
+            <div style="height:5px;background:rgba(255,255,255,.04);margin-bottom:4px;border-radius:2px;width:82%"></div>
+            <div style="height:5px;background:rgba(255,255,255,.04);border-radius:2px;width:48%"></div>
+          </div>
+          <div class="bpane bafter">
+            <div style="height:3px;background:var(--red);margin-bottom:9px;width:42%;border-radius:1px"></div>
+            <div style="height:22px;background:var(--red);margin-bottom:7px;width:100%;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%);opacity:.9"></div>
+            <div style="height:5px;background:rgba(200,255,0,.4);border-radius:2px;width:52%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO DESIGN -->
+<section class="fsec" id="ldesign">
+  <div class="fbg">
+    <div class="fovl" style="background:linear-gradient(135deg,rgba(5,5,5,.92) 0%,rgba(10,0,0,.5) 50%,rgba(5,5,5,.92) 100%);z-index:1"></div>
+    <img src="logo_hero.png" alt="" style="width:100%;height:100%;object-fit:cover;animation:kb 20s ease-in-out infinite alternate-reverse;opacity:.5">
+  </div>
+  <div class="fcont">
+    <div class="lshow rv">
+      <div class="lcard"><div class="lname" style="color:var(--red);font-size:40px">NOKTO</div><div class="ltag2">GROUP LLC</div></div>
+      <div class="lcard" style="transform:scale(.93)"><div class="lname" style="font-style:italic;letter-spacing:.02em;color:var(--lime);font-family:var(--font-b)">Signature</div><div class="ltag2">Mark Concepts</div></div>
+      <div class="lcard" style="transform:scale(.86)"><div class="lname" style="font-weight:300;letter-spacing:.4em;font-size:18px">MINIMAL MARK</div><div class="ltag2">Wordmark Concepts</div></div>
+    </div>
+    <div style="text-align:right">
+      <span class="slabel" style="text-align:right;display:block">02 — Logo Design</span>
+      <h2 class="fh rv">Your<br>Identity,<br><span style="color:var(--red)">Amplified.</span></h2>
+      <p class="fb rv" style="margin-left:auto">A logo isn't art — it's a business decision. We design marks that communicate authority, trust, and personality before a word is read.</p>
+      <a href="#cta" class="btn-p rv" style="margin-left:auto">Start Your Brand</a>
+    </div>
+  </div>
+</section>
+
+<!-- WOOD SIGNS -->
+<section class="fsec" id="wood">
+  <div class="fbg">
+    <div class="fovl" style="background:linear-gradient(135deg,rgba(5,5,5,.88) 0%,rgba(12,5,0,.55) 50%,rgba(5,5,5,.88) 100%);z-index:1"></div>
+    <img src="wood_hero.png" alt="" style="width:100%;height:100%;object-fit:cover;animation:kb 18s ease-in-out infinite alternate;opacity:.6">
+  </div>
+  <div class="fcont">
+    <div>
+      <span class="slabel" style="color:#C87533">03 — Custom Wood Signs</span>
+      <h2 class="fh rv">Handcrafted.<br>Laser-Perfect.<br><span style="color:var(--gold)">Timeless.</span></h2>
+      <p class="fb rv">From business signage to personal gifts — custom laser-engraved wood signs that turn any space into a statement. Built by hand, built to outlast trends.</p>
+      <a href="#cta" class="btn-p rv" style="background:var(--wood)">Request a Sign</a>
+    </div>
+    <div class="rv" style="text-align:center">
+      <div class="smock">
+        <span class="st">NOKTO GROUP</span>
+        <span class="ss">Est. LLC &nbsp;·&nbsp; Premium Craftsmanship</span>
+      </div>
+      <div class="woods">
+        <span>Walnut</span><span>·</span><span>Oak</span><span>·</span><span>Cherry</span><span>·</span><span>Maple</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stgrid">
+    <div class="sti rv"><div class="stn" data-target="50" data-suffix="+">0</div><div class="stl">Projects Delivered</div></div>
+    <div class="sti rv"><div class="stn" data-target="100" data-suffix="%">0</div><div class="stl">Custom Built</div></div>
+    <div class="sti rv"><div class="stn" data-target="3" data-suffix="">0</div><div class="stl">Service Verticals</div></div>
+    <div class="sti rv"><div class="stn" data-target="1" data-suffix="">0</div><div class="stl">Agency. All In.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <video id="cvid" autoplay muted loop playsinline>
+    <source src="eclipse_veo_0.mp4" type="video/mp4">
+  </video>
+  <div class="covl"></div>
+  <div class="ccont">
+    <p class="ceye rv">Begin Here</p>
+    <h2 class="ch rv">Ready For<br><span style="color:var(--red)">Your</span><br>NOKTO Effect?</h2>
+    <p class="csub rv">Book a free consultation. We'll audit your current brand presence and show you exactly what the NOKTO Effect looks like for your business.</p>
+    <a href="mailto:info@noktogroup.com" class="cbtn rv">Book Free Consultation <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="flogo">
+      <span>NOKTO</span>
+      <span>Group LLC</span>
+      <p class="ftag">Digital. Crafted. Unforgettable.</p>
+    </div>
+    <div class="flinks">
+      <div class="flg">
+        <h4>Services</h4>
+        <a href="#">Website Overhauls</a>
+        <a href="#">Logo Design</a>
+        <a href="#">Custom Wood Signs</a>
+        <a href="#">Email Campaigns</a>
+      </div>
+      <div class="flg">
+        <h4>Company</h4>
+        <a href="#">About Nokto</a>
+        <a href="#">Our Process</a>
+        <a href="#">Portfolio</a>
+        <a href="#">Pricing</a>
+      </div>
+      <div class="flg">
+        <h4>Contact</h4>
+        <a href="#">Start a Project</a>
+        <a href="#">Book Consultation</a>
+        <a href="#">Request Quote</a>
+      </div>
+    </div>
+  </div>
+  <div class="fb2">
+    <p class="fcopy">© 2025 NOKTO GROUP LLC. <span>The NOKTO Effect.</span></p>
+    <p class="fcopy">All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── Cursor ──────────────────────────────────────────────
+const dot = document.getElementById('cd');
+const ring = document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+document.querySelectorAll('a,button,.scard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+(function cursorLoop(){
+  rx+=(mx-rx)*.11; ry+=(my-ry)*.11;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(cursorLoop);
+})();
+
+// ── Nav scroll ──────────────────────────────────────────
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>navEl.classList.toggle('scrolled',scrollY>60));
+
+// ── Hero particles ──────────────────────────────────────
+const pc=document.getElementById('hpar');
+const px=pc.getContext('2d');
+function sizePC(){pc.width=innerWidth;pc.height=innerHeight}
+sizePC();
+window.addEventListener('resize',sizePC);
+const pts=Array.from({length:70},()=>({
+  x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+  r:Math.random()*1.4+.3,vx:(Math.random()-.5)*.14,vy:(Math.random()-.5)*.14,
+  o:Math.random()*.35+.08
+}));
+(function pLoop(){
+  px.clearRect(0,0,pc.width,pc.height);
+  for(const p of pts){
+    px.beginPath();px.arc(p.x,p.y,p.r,0,Math.PI*2);
+    px.fillStyle=`rgba(255,255,255,${p.o})`;px.fill();
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>pc.width)p.vx*=-1;
+    if(p.y<0||p.y>pc.height)p.vy*=-1;
+  }
+  requestAnimationFrame(pLoop);
+})();
+
+// ── NOKTO canvas clip ───────────────────────────────────
+const nc=document.getElementById('ncanvas');
+const nx=nc.getContext('2d');
+const nsrc=document.getElementById('nsrc');
+const oc=document.createElement('canvas');
+const ox=oc.getContext('2d');
+let scrollOff=0;
+
+function sizeNC(){
+  const W=innerWidth;
+  const H=Math.min(W*.36,400);
+  nc.width=oc.width=W;
+  nc.height=oc.height=H;
+}
+sizeNC();
+window.addEventListener('resize',sizeNC);
+
+window.addEventListener('scroll',()=>{
+  const r=document.getElementById('nclip').getBoundingClientRect();
+  scrollOff=Math.max(0,Math.min(1,-r.top/innerHeight));
+});
+
+// Auto-compute font size to fill ~90% canvas width
+function getFSize(W){
+  let sz=300;
+  ox.font=`900 ${sz}px "Bebas Neue",Impact,sans-serif`;
+  const mw=ox.measureText('NOKTO').width;
+  return Math.floor(sz*(W*.9/mw));
+}
+
+let fsCache=null,fsCacheW=null;
+function drawN(){
+  const W=nc.width,H=nc.height;
+  if(W!==fsCacheW){fsCache=getFSize(W);fsCacheW=W}
+  const fs=fsCache;
+  const cx=W/2,cy=H/2;
+  const vOff=scrollOff*H*.4;
+
+  ox.clearRect(0,0,W,H);
+  if(nsrc.readyState>=2){
+    ox.drawImage(nsrc,0,-vOff,W,H+vOff);
+    ox.globalCompositeOperation='destination-in';
+    ox.fillStyle='white';
+    ox.font=`900 ${fs}px "Bebas Neue",Impact,sans-serif`;
+    ox.textAlign='center';ox.textBaseline='middle';
+    ox.fillText('NOKTO',cx,cy);
+    ox.globalCompositeOperation='source-over';
+  }
+
+  // Main canvas
+  nx.fillStyle='#050505';
+  nx.fillRect(0,0,W,H);
+
+  // Eclipse glow behind text
+  nx.save();
+  nx.shadowColor='rgba(255,80,15,.22)';
+  nx.shadowBlur=90;
+  nx.fillStyle='rgba(255,55,0,.05)';
+  nx.font=`900 ${fs}px "Bebas Neue",Impact,sans-serif`;
+  nx.textAlign='center';nx.textBaseline='middle';
+  nx.fillText('NOKTO',cx,cy);
+  nx.restore();
+
+  // Draw video-clipped text
+  nx.drawImage(oc,0,0);
+
+  // Subtle outline
+  nx.save();
+  nx.strokeStyle='rgba(255,255,255,.05)';
+  nx.lineWidth=1;
+  nx.font=`900 ${fs}px "Bebas Neue",Impact,sans-serif`;
+  nx.textAlign='center';nx.textBaseline='middle';
+  nx.strokeText('NOKTO',cx,cy);
+  nx.restore();
+
+  requestAnimationFrame(drawN);
+}
+
+// Wait for Bebas Neue + video before starting — prevents wrong font metrics
+let nDrawing=false;
+function startDrawN(){if(nDrawing)return;nDrawing=true;drawN();}
+
+document.fonts.load('900 300px "Bebas Neue"').then(()=>{
+  // Font ready — now wait for video
+  if(nsrc.readyState>=2){startDrawN();return;}
+  nsrc.addEventListener('loadeddata',startDrawN,{once:true});
+  nsrc.addEventListener('canplay',startDrawN,{once:true});
+  // Fallback: retry every 300ms
+  const nRetry=setInterval(()=>{
+    if(nsrc.readyState>=2){clearInterval(nRetry);startDrawN();}
+    else nsrc.load();
+  },300);
+});
+
+// ── Hero entrance ───────────────────────────────────────
+const dur={d:.9,e:'power3.out'};
+gsap.to('.heye',{opacity:1,y:0,duration:1,delay:.5,ease:'power3.out'});
+gsap.to('.hh1',{opacity:1,y:0,duration:1.1,delay:.75,ease:'power3.out'});
+gsap.to('.hsub',{opacity:1,y:0,duration:1,delay:1,ease:'power3.out'});
+gsap.to('.hbtns',{opacity:1,y:0,duration:.9,delay:1.2,ease:'power3.out'});
+
+// ── Hero parallax ───────────────────────────────────────
+gsap.to('#hcont',{
+  y:'28%',ease:'none',
+  scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}
+});
+
+// ── Scroll reveals ──────────────────────────────────────
+gsap.utils.toArray('.rv').forEach(el=>{
+  gsap.to(el,{opacity:1,y:0,duration:.85,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 86%',toggleActions:'play none none none'}
+  });
+});
+
+// ── Service cards stagger ───────────────────────────────
+gsap.utils.toArray('.scard').forEach((c,i)=>{
+  gsap.from(c,{opacity:0,y:55,duration:.75,delay:i*.12,ease:'power3.out',
+    scrollTrigger:{trigger:c,start:'top 87%',toggleActions:'play none none none'}
+  });
+});
+
+// ── NOKTO section parallax scale ───────────────────────
+gsap.to('#ncanvas',{
+  scale:1.035,ease:'none',
+  scrollTrigger:{trigger:'#nclip',start:'top bottom',end:'bottom top',scrub:true}
+});
+
+// ── Stats count-up ──────────────────────────────────────
+document.querySelectorAll('.stn[data-target]').forEach(el=>{
+  const target=+el.dataset.target;
+  const suffix=el.dataset.suffix||'';
+  ScrollTrigger.create({
+    trigger:el,start:'top 82%',
+    onEnter:()=>{
+      gsap.to({v:0},{v:target,duration:2,ease:'power2.out',
+        onUpdate(){el.textContent=Math.round(this.targets()[0].v)+suffix}
+      });
+    }
+  });
+});
+
+// ── NOKTO window scroll parallax ───────────────────────
+// background-attachment:fixed breaks with background-clip:text in Chrome
+// so we drive background-position-y manually via scroll
+const nwEl=document.querySelector('.nw-text');
+const nwSec=document.getElementById('nokto-window');
+function updateNW(){
+  if(!nwEl||!nwSec)return;
+  const rect=nwSec.getBoundingClientRect();
+  const total=nwSec.offsetHeight+innerHeight;
+  const progress=(innerHeight-rect.top)/total; // 0 = just entering, 1 = just left
+  const y=Math.max(0,Math.min(100,10+progress*80));
+  nwEl.style.backgroundPositionY=y+'%';
+}
+window.addEventListener('scroll',updateNW,{passive:true});
+updateNW();
+
+// ── Feature section depth parallax ─────────────────────
+gsap.utils.toArray('.fsec').forEach(sec=>{
+  const bg=sec.querySelector('.fbg > div:last-child');
+  if(bg) gsap.to(bg,{y:'8%',ease:'none',
+    scrollTrigger:{trigger:sec,start:'top bottom',end:'bottom top',scrub:true}
+  });
+});
+</script>
+</body>
+</html>
