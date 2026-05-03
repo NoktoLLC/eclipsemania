@@ -203,7 +203,10 @@ footer{background:#030303;border-top:1px solid rgba(255,255,255,.04);padding:56p
 
 /* RESPONSIVE */
 @media(max-width:768px){
-  .sgrid{grid-template-columns:1fr}
+  .sgrid{grid-template-columns:1fr;gap:1px}
+  .scard{padding:28px 22px}
+  .snum{font-size:60px;top:6px;right:12px}
+  #svc{padding:60px clamp(20px,5vw,80px) 60px}
   .stgrid{grid-template-columns:repeat(2,1fr)}
   .fcont{grid-template-columns:1fr;gap:36px}
   .ft{flex-direction:column;gap:36px}
@@ -280,14 +283,14 @@ footer{background:#030303;border-top:1px solid rgba(255,255,255,.04);padding:56p
     <source src="eclipse_veo_0.mp4" type="video/mp4">
   </video>
   <canvas id="ncanvas"></canvas>
-  <div class="nsub">Group LLC</div>
+  <div class="nsub">GROUP LLC</div>
   <p class="ntag">Digital &nbsp;·&nbsp; Crafted &nbsp;·&nbsp; Unforgettable</p>
 </section>
 
 <!-- SERVICES -->
 <section id="svc">
   <span class="slabel">What We Do</span>
-  <h2 class="sh rv">We don't just<br>build websites.<br><em>We build weapons.</em></h2>
+  <h2 class="sh rv">We don't just<br>build websites.<br><em>We build brands.</em></h2>
   <div class="sgrid">
     <div class="scard rv">
       <span class="snum">01</span>
